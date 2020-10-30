@@ -26,7 +26,6 @@ class CreateAuthTables extends Migration
         $userKeyName = $userModel->getKeyName();
         $usersTable = $userModel->getTable();
 
-
         Schema::create($rolesTable, function (Blueprint $table) {
             $table->increments('id')->comment('角色ID');
             $table->string('name')->unique()->comment('角色名');
@@ -55,11 +54,16 @@ class CreateAuthTables extends Migration
 
         Schema::create($permissionsTable, function (Blueprint $table) {
             $table->increments('id')->comment('权限ID');
-            $table->unsignedInteger('pid')->default(0)->comment('父级权限ID');
-            $table->tinyInteger('type')->default(0)->comment('权限类型[0:目录;1:菜单;2:权限;]');
-            $table->string('route')->unique()->comment('权限路由');
-            $table->string('display_name')->nullable()->comment('权限显示名称');
-            $table->string('description')->nullable()->comment('权限描述');
+            $table->unsignedInteger('parent_id')->default(0)->comment('父权限ID');
+            $table->tinyInteger('type')->default(0)->comment('权限类型[0:目录;1:菜单;2:权限]');
+            $table->string('title')->default('')->comment('权限标题');
+            $table->string('path')->default('')->nullable()->comment('权限路由地址');
+            $table->string('component')->default('')->comment('前端页面组件名称');
+            $table->string('perms')->default('')->comment('权限标识');
+            $table->string('icon')->default('')->comment('菜单图标');
+            $table->smallInteger('sort')->default(0)->comment('排序[值越小越靠前]');
+            $table->tinyInteger('hidden')->default(0)->comment('排序[值越小越靠前]');
+            $table->tinyInteger('is_frame')->default(0)->comment('是否外链[0:否;1:是]');
             $table->dateTime('created_at')->comment('创建时间');
             $table->dateTime('updated_at')->comment('修改时间');
 

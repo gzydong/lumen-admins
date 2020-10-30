@@ -12,55 +12,45 @@ class RbacTableSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
-            1 => [
-                'route' => 'admin/rbac/create-role',
-                'display_name' => '创建角色',
-                'description' => '-',
-            ],
-            2 => [
-                'route' => 'admin/rbac/edit-role',
-                'display_name' => '编辑角色',
-                'description' => '-',
-            ],
-            3 => [
-                'route' => 'admin/rbac/delete-role',
-                'display_name' => '删除角色',
-                'description' => '-',
-            ],
-            4 => [
-                'route' => 'admin/rbac/create-permission',
-                'display_name' => '创建权限',
-                'description' => '-',
-            ],
-            5 => [
-                'route' => 'admin/rbac/edit-permission',
-                'display_name' => '编辑权限',
-                'description' => '-',
-            ],
-            6 => [
-                'route' => 'admin/rbac/delete-permission',
-                'display_name' => '删除权限',
-                'description' => '-',
-            ], 7 => [
-                'route' => 'admin/rbac/give-role-permission',
-                'display_name' => '分配角色权限',
-                'description' => '-',
-            ], 8 => [
-                'route' => 'admin/rbac/give-admin-permission',
-                'display_name' => '分配管理员角色及权限',
-                'description' => '-',
-            ],
+        $data = [
+            [2, 0, 0, '系统管理', '/system', '', '', 'solution', 1, 0, 0, '2020-10-29 11:36:45', '2020-10-29 10:36:48'],
+            [3, 2, 1, '用户管理', '/system/users', 'SystemUserPage', '', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-29 20:36:13'],
+            [4, 2, 1, '角色管理', '/system/roles', 'SystemRolePage', '', '', 3, 0, 0, '2020-10-29 11:36:45', '2020-10-29 10:25:01'],
+            [5, 2, 1, '菜单管理', '/system/menus', 'SystemMenuPage', 'system:menu:page', '', 3, 0, 0, '2020-10-29 11:36:45', '2020-10-28 17:30:31'],
+            [6, 3, 2, '用户数据', '', '', 'system:user:search', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:35:12'],
+            [7, 3, 2, '用户新增', '', '', 'system:user:insert', '', 1, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:35:58'],
+            [8, 3, 2, '修改状态', '', '', 'system:user:change-status', '', 3, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:36:49'],
+            [9, 4, 2, '角色数据', '', '', 'system:role:search', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:37:37'],
+            [36, 3, 2, '修改密码', '', '', 'system:user:change-password', '', 4, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:37:05'],
+            [37, 4, 2, '角色新增', '', '', 'system:role:insert', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:37:58'],
+            [38, 4, 2, '角色编辑', '', '', 'system:role:edit', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-29 21:00:16'],
+            [39, 4, 2, '角色删除', '', '', 'system:role:delete', '', 0, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:38:45'],
+            [40, 5, 2, '菜单新增', '', '', 'system:menu:insert', '', 1, 0, 0, '2020-10-29 11:36:45', '2020-10-28 11:40:46'],
+            [93, 4, 2, '角色分配权限', '', '', 'system:role:give-perms', '', 0, 0, 0, '2020-10-21 13:55:33', '2020-10-28 11:39:10'],
+            [96, 3, 2, '用户删除', '', '', 'system:user:delete', '', 3, 0, 0, '2020-10-22 14:35:20', '2020-10-29 11:36:55'],
+            [102, 5, 2, '菜单编辑', '', '', 'system:menu:edit', '', 2, 0, 0, '2020-10-25 21:36:21', '2020-10-28 11:41:11'],
+            [103, 5, 2, '菜单删除', '', '', 'system:menu:delete', '', 3, 0, 0, '2020-10-25 21:36:50', '2020-10-28 11:41:19'],
+            [104, 5, 2, '菜单数据', '', '', 'system:menu:search', '', 0, 0, 0, '2020-10-25 21:40:57', '2020-10-28 11:40:28'],
+            [108, 0, 1, '自定义组件', '/other/list', 'component', '', 'dot-chart', 0, 0, 0, '2020-10-28 17:34:03', '2020-10-30 11:29:01'],
+            [121, 3, 2, '分配角色', '', '', 'system:user:give-role', '', 5, 0, 0, '2020-10-29 11:31:53', '2020-10-29 11:32:06'],
+            [122, 3, 2, '用户编辑', '', '', 'system:user:edit', '', 2, 0, 0, '2020-10-29 11:36:32', '2020-10-29 11:36:45']
         ];
 
-        foreach ($permissions as $id => $permission) {
+        foreach ($data as $val) {
             DB::table('permissions')->insert([
-                'id' => $id,
-                'route' => $permission['route'],
-                'display_name' => $permission['display_name'],
-                'description' => $permission['description'],
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
+                'id'=>$val[0],
+                'parent_id'=>$val[1],
+                'type'=>$val[2],
+                'title'=>$val[3],
+                'path'=>$val[4],
+                'component'=>$val[5],
+                'perms'=>$val[6],
+                'icon'=>$val[7],
+                'sort'=>$val[8],
+                'hidden'=>$val[9],
+                'is_frame'=>$val[10],
+                'created_at'=>$val[11],
+                'updated_at'=>$val[12],
             ]);
         }
     }

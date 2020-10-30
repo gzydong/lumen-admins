@@ -18,7 +18,7 @@ lumen-template 是一个简洁的lumen 开发模板，使用 lumen7.0 编写而�
 #### 安装流程
 克隆源代码
 ```bash
-> git clone git@github.com:gzydong/lumen-template.git
+> git@github.com:gzydong/lumen-admin.git
 ```
 
 安装 Composer 依赖包
@@ -49,7 +49,7 @@ lumen-template 是一个简洁的lumen 开发模板，使用 lumen7.0 编写而�
 
 #### 使用说明
 
-1. xxxx
+1. 前端请移步 [https://github.com/gzydong/lumen-admin-vue](https://github.com/gzydong/lumen-admin-vue)
 2. xxxx
 3. xxxx
 

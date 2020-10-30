@@ -24,6 +24,7 @@ class CreateAdminsTable extends Migration
             $table->boolean('status')->default(10)->comment('账号状态[-1:已删除;0:已禁用;10:正常;]');
             $table->dateTime('last_login_time')->comment('最后登录时间');
             $table->string('last_login_ip', 20)->default('')->comment('最后登录IP');
+            $table->tinyInteger('is_delete')->default(0)->comment('是否已删除[0:否;1:是]');
             $table->dateTime('created_at')->comment('创建时间');
             $table->dateTime('updated_at')->comment('修改时间');
 

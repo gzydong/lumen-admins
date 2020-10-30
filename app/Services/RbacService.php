@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\Tree;
 use App\Models\Admin;
 use App\Models\Rbac\AdminPermission;
 use App\Models\Rbac\Permission;
@@ -262,5 +263,20 @@ class RbacService
         }
 
         return array_column($perms,'perms');
+    }
+
+    /**
+     * 获取权限树
+     *
+     * @return array
+     */
+    public function getPermsTree(){
+        $perms = $this->rbacRepository->findAllPerms(['id', 'parent_id', 'title']);
+        $tree = new Tree();
+        $tree->init([
+            'array' => $perms,
+        ]);
+
+        return getPermsTree($tree->getTreeArray(0));
     }
 }

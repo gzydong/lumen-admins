@@ -214,12 +214,11 @@ class RbacController extends CController
 
         $permissions = $request->input('permissions', '');
         $permissions = explode(',', $permissions);
-        $permissions = array_unique(array_filter($permissions));
 
         $result = services()->rbacService->giveAdminRole(
             $request->input('admin_id'),
             $request->input('role_id'),
-            $permissions
+            array_unique(array_filter($permissions))
         );
 
         if (!$result) {
@@ -272,20 +271,13 @@ class RbacController extends CController
             'role_id' => 'required|integer:min:1'
         ]);
 
-        $rbacRepository = services()->rbacService->getRepository();
-
-        $perms = array_map(function ($value) {
-            return [
-                'id' => $value['id'],
-                'pid' => $value['parent_id'],
-                'key' => $value['id'],
-                'title' => $value['title'],
-            ];
-        }, $rbacRepository->findAllPerms(['id', 'parent_id', 'title']));
+        // 权限 Tree
+        $perms = services()->rbacService->getPermsTree();
+        $rolePerms = services()->rbacService->getRepository()->findRolePermsIds(request()->input('role_id'));
 
         return $this->success([
             'permissions' => $perms,
-            'role_perms' => $rbacRepository->findRolePermsIds(request()->input('role_id'))
+            'role_perms' => $rolePerms
         ]);
     }
 
@@ -301,23 +293,18 @@ class RbacController extends CController
         ]);
 
         $admin_id = request()->input('admin_id');
-        $rbacRepository = services()->rbacService->getRepository();
+        // 权限 Tree
+        $perms = services()->rbacService->getPermsTree();
+        // 角色列表
+        $roles = Role::get(['id', 'display_name'])->toarray();
+        // 管理员已赋予的权限
+        $adminPerms = AdminPermission::where('admin_id', $admin_id)->pluck('permission_id')->toArray();
 
-        $perms = array_map(function ($value) {
-            return [
-                'id' => $value['id'],
-                'pid' => $value['parent_id'],
-                'key' => $value['id'],
-                'title' => $value['title'],
-            ];
-        }, $rbacRepository->findAllPerms(['id', 'parent_id', 'title']));
-
-        $role_id = RoleAdmin::where('admin_id', $admin_id)->value('role_id');
         return $this->success([
-            'roles' => Role::get(['id', 'display_name'])->toarray(),
-            'perms' => $perms,
-            'admin_perms' => AdminPermission::where('admin_id', $admin_id)->pluck('permission_id')->toArray(),
-            'role_id' => $role_id ?? 0
+            'roles' => $roles,
+            'perms' => getPermsTree($perms),
+            'admin_perms' => $adminPerms,
+            'role_id' => RoleAdmin::where('admin_id', $admin_id)->value('role_id') ?? 0
         ], 'success');
     }
 }
